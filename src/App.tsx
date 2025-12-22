@@ -8,7 +8,7 @@ import './index.css';
 
 function App() {
   return (
-    <Router basename="/srlab.github.io">
+    <Router>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
