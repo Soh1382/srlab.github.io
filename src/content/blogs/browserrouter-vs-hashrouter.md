@@ -1,38 +1,118 @@
-# Understanding Client-Side Routing: BrowserRouter vs. HashRouter
-
-When building a React application, choosing the right router is critical for ensuring your users can navigate your site smoothly. If you are hosting on platforms like GitHub Pages, the choice between `BrowserRouter` and `HashRouter` can be the difference between a working site and a "404 Not Found" error.
-
+---
+title: "BrowserRouter vs HashRouter in React"
+date: "2025-12-22"
+description: "Learn the real differences between BrowserRouter and HashRouter, including URL formats, refresh behavior, server setup, and when to use each."
 ---
 
-## 1. BrowserRouter
+# BrowserRouter vs HashRouter: What’s the Difference?
 
-`BrowserRouter` uses the HTML5 History API to keep your UI in sync with the URL. It creates clean, "normal-looking" URLs.
+If you’re using **React Router**, you’ll usually pick either **BrowserRouter** or **HashRouter**. Both handle client-side navigation, but they differ in how they build URLs and what your server needs to support.
 
-* **URL Appearance:** `https://srlabuk.com/about`
-* **How it works:** It communicates directly with the browser's history stack to change the URL without a full page refresh.
-* **The Catch:** The server must be configured to return the `index.html` file for **every** request. If a user refreshes the page at `/about`, the browser asks the server for that specific file. If the server (like GitHub Pages) doesn't find it, it returns a 404.
+## What each one does
 
-## 2. HashRouter
+### BrowserRouter
+Uses the **HTML5 History API** to create clean URLs like:
+- `/about`
+- `/products/123`
 
-`HashRouter` uses the hash portion of the URL (everything after the `#`) to manage navigation.
+So your full URL looks like:
+- `https://example.com/about`
 
-* **URL Appearance:** `https://srlabuk.com/#/about`
-* **How it works:** Browsers do not send the hash portion of a URL to the server. When you refresh `/#/about`, the server only sees `srlabuk.com/` and serves the home page, which then lets React load the correct component based on the hash.
-* **Best For:** Legacy browsers or static hosting environments like GitHub Pages where you cannot configure the server-side redirects.
+### HashRouter
+Uses the URL **hash** (`#`) to store the route like:
+- `#/about`
+- `#/products/123`
 
----
+So your full URL looks like:
+- `https://example.com/#/about`
 
-## Comparison Table
+## The core difference (and why it matters)
 
-| Feature | BrowserRouter | HashRouter |
-| --- | --- | --- |
-| **URL Style** | Clean (`/about`) | Hashed (`/#/about`) |
-| **Server Config** | Required (Redirects to index.html) | Not Required |
-| **SEO** | Better (Search engines prefer clean URLs) | Poor (Hashes are often ignored) |
-| **Recommended for** | Custom Servers / Netlify / Vercel | GitHub Pages / Static Servers |
+### BrowserRouter depends on server support
+With BrowserRouter, visiting `/about` looks like a real server path. That means:
+- Clicking links in the app works fine
+- But **refreshing** the page or opening `/about` directly makes the browser request `/about` from the server
+- If your server isn’t configured to serve your React app for that path, you’ll get a **404**
 
----
+To use BrowserRouter reliably, your server/host must route unknown requests back to your app’s `index.html` (often called an SPA fallback or rewrite rule).
 
-## Which should you use for SRLab?
+### HashRouter avoids server issues
+With HashRouter, everything after `#` is never sent to the server. The server only receives `/`, so:
+- Refreshing `/#/about` still requests `/`
+- Your app loads normally
+- React Router reads the hash and shows the correct route
+- No rewrites needed
 
-For a professional business site like **SRLab**, `BrowserRouter` is the standard for a polished user experience and better SEO. However, if you are experiencing 404 errors on page refreshes while hosting on GitHub Pages, switching to `HashRouter` is the quickest technical fix.
+## Pros and cons
+
+### BrowserRouter
+**Pros**
+- Clean, modern URLs (`/about`)
+- Better for sharing links that look “normal”
+- Often preferable for SEO and analytics setups (clean paths)
+
+**Cons**
+- Requires server rewrites / SPA fallback
+- Misconfigured hosting commonly causes refresh/direct-link 404s
+
+### HashRouter
+**Pros**
+- Works on most static hosts without special configuration
+- Refresh and direct links won’t 404 due to missing rewrites
+- Great for demos, internal tools, or no-config deployments
+
+**Cons**
+- URLs include `#` (less clean)
+- Some SEO/analytics flows may be less ideal with hash-based routing
+
+## When to use which
+
+### Use BrowserRouter when
+- You control hosting/server config (or your platform supports SPA rewrites)
+- You want clean URLs
+- You’re building a production SPA with proper routing support
+
+### Use HashRouter when
+- You can’t configure rewrites (or want to avoid them)
+- You’re on simple static hosting that only serves files as-is
+- You want the most “it just works” setup
+
+## Code examples
+
+### BrowserRouter example
+```tsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+### HashRouter example
+```tsx
+import { HashRouter, Routes, Route } from "react-router-dom";
+
+export default function App() {
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </HashRouter>
+  );
+}
+```
+
+## Summary
+
+BrowserRouter = clean URLs, but needs server rewrites to prevent 404s on refresh/direct links.
+
+HashRouter = # in the URL, but works without server configuration on most static hosts.
