@@ -1,27 +1,25 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useRipple } from '../hooks/useRipple';
 
 const Contact = () => {
     useRipple();
     const [formData, setFormData] = useState({ name: '', message: '' });
+
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setStatus('sending');
-        try {
-            await axios.post('/api/contact', formData);
-            setStatus('success');
-            setFormData({ name: '', message: '' });
-        } catch (error) {
-            console.error(error);
-            setStatus('error');
-        }
+        const subject = encodeURIComponent(`Contact from Portfolio: ${formData.name}`);
+        const body = encodeURIComponent(`Name: ${formData.name}\n\nMessage:\n${formData.message}`);
+        // REPLACE THE EMAIL BELOW WITH YOUR ACTUAL EMAIL ADDRESS
+        window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
+        
+        setStatus('success');
+        setFormData({ name: '', message: '' });
     };
 
     return (
