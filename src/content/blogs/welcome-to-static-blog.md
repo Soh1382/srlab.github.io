@@ -1,6 +1,6 @@
 ---
 title: "Welcome to My Static Blog"
-date: "2024-12-22"
+date: "2025-12-22"
 description: "This is the first blog post on the newly converted static site."
 ---
 
