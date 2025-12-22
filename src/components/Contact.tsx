@@ -11,15 +11,35 @@ const Contact = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const subject = encodeURIComponent(`Contact from Portfolio: ${formData.name}`);
-        const body = encodeURIComponent(`Name: ${formData.name}\n\nMessage:\n${formData.message}`);
-        // REPLACE THE EMAIL BELOW WITH YOUR ACTUAL EMAIL ADDRESS
-        window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
+        setStatus('sending');
         
-        setStatus('success');
-        setFormData({ name: '', message: '' });
+        try {
+            const response = await fetch("https://formsubmit.co/ajax/soheil1382@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    message: formData.message,
+                    _subject: `New Request from Portfolio: ${formData.name}`,
+                    _template: "table"
+                })
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', message: '' });
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            console.error(error);
+            setStatus('error');
+        }
     };
 
     return (
