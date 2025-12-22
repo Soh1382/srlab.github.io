@@ -19,7 +19,7 @@ const BlogModal = ({ blog, isOpen, onClose }: BlogModalProps) => {
                             <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
                                 <h3 className="text-3xl font-semibold leading-6 text-white mb-4">{blog.title}</h3>
                                 <div className="mt-2">
-                                    <p className="text-sm text-gray-400 mb-4">{new Date(blog.createdAt).toLocaleDateString()}</p>
+                                    <p className="text-sm text-gray-400 mb-4">{new Date(blog.date).toLocaleDateString()}</p>
                                     <p className="text-gray-300 text-lg leading-relaxed whitespace-pre-wrap">{blog.content}</p>
                                 </div>
                             </div>

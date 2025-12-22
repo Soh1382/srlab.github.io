@@ -1,19 +1,13 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import BlogCard from '../components/BlogCard';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ParticleBackground from '../components/ParticleBackground';
 import type { Blog } from '../types';
+import { getAllBlogs } from '../utils/blogLoader';
 
 const AllBlogs = () => {
-    const [blogs, setBlogs] = useState<Blog[]>([]);
-
-    useEffect(() => {
-        axios.get('/api/blogs')
-            .then(res => setBlogs(res.data))
-            .catch(err => console.error(err));
-    }, []);
+    const [blogs] = useState<Blog[]>(getAllBlogs());
 
     return (
         <>
@@ -27,7 +21,7 @@ const AllBlogs = () => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {blogs.length > 0 ? (
                             blogs.map(blog => (
-                                <BlogCard key={blog._id} blog={blog} />
+                                <BlogCard key={blog.slug} blog={blog} />
                             ))
                         ) : (
                             <p className="text-gray-400 text-center col-span-full">No blogs published yet.</p>
