@@ -19,7 +19,7 @@ const Hero = () => {
                     transition={{ delay: 0.3, duration: 0.8 }}
                     className="text-xl md:text-2xl text-gray-400 mb-8"
                 >
-                    Full Stack Developer | UI/UX Enthusiast | Creative Thinker
+                    Software Engineer | UI/UX Enthusiast | Creative Thinker
                 </motion.p>
                 <motion.a 
                     initial={{ scale: 0.8, opacity: 0 }}
