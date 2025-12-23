@@ -3,7 +3,7 @@ import { useRipple } from '../hooks/useRipple';
 
 const Contact = () => {
     useRipple();
-    const [formData, setFormData] = useState({ name: '', message: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
 
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
@@ -24,6 +24,8 @@ const Contact = () => {
                 },
                 body: JSON.stringify({
                     name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone || 'Not provided',
                     message: formData.message,
                     _subject: `New Request from Portfolio: ${formData.name}`,
                     _template: "table"
@@ -32,7 +34,7 @@ const Contact = () => {
 
             if (response.ok) {
                 setStatus('success');
-                setFormData({ name: '', message: '' });
+                setFormData({ name: '', email: '', phone: '', message: '' });
             } else {
                 setStatus('error');
             }
@@ -61,6 +63,31 @@ const Contact = () => {
                                 required
                                 className="w-full bg-gray-800/50 border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-primary outline-none transition" 
                                 placeholder="John Doe" 
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-400 mb-2 text-sm">Your Email</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                className="w-full bg-gray-800/50 border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-primary outline-none transition" 
+                                placeholder="john@example.com" 
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-400 mb-2 text-sm">Phone Number <span className='text-xs text-gray-500'>(Optional)</span></label>
+                            <input 
+                                type="tel" 
+                                name="phone" 
+                                value={formData.phone}
+                                onChange={handleChange}
+                                className="w-full bg-gray-800/50 border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-primary outline-none transition" 
+                                placeholder="+1 (555) 000-0000" 
                             />
                         </div>
 
