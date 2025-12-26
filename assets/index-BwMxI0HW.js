@@ -14,8 +14,6 @@ date: "2025-12-22"
 description: "Learn the real differences between BrowserRouter and HashRouter, including URL formats, refresh behavior, server setup, and when to use each."
 ---
 
-# BrowserRouter vs HashRouter: What’s the Difference?
-
 If you’re using **React Router**, you’ll usually pick either **BrowserRouter** or **HashRouter**. Both handle client-side navigation, but they differ in how they build URLs and what your server needs to support.
 
 ## What each one does
@@ -131,8 +129,6 @@ title: "Flexbox vs CSS Grid: Which Layout System Should You Use?"
 date: "2025-12-26"
 description: "Understand the key differences between Flexbox and CSS Grid, including one-dimensional vs two-dimensional layouts, alignment control, and when to combine them."
 ---
-
-# Flexbox vs CSS Grid: What’s the Difference?
 
 If you are styling web pages today, you will inevitably use **Flexbox** or **CSS Grid** (or likely both). While both systems replaced the old days of using "floats" to arrange content, they solve layout problems in fundamentally different ways.
 
@@ -342,8 +338,6 @@ title: "SQL vs NoSQL Databases: What’s the Difference?"
 date: "2025-12-22"
 description: "Understand how SQL and NoSQL databases differ in data models, schemas, scaling, consistency, and when to choose each."
 ---
-
-# SQL vs NoSQL Databases: What’s the Difference?
 
 Choosing between **SQL** and **NoSQL** databases is less about which one is “better” and more about which one matches your data, your access patterns, and how your app needs to scale. Both store data and let you query it—just with very different trade-offs.
 
