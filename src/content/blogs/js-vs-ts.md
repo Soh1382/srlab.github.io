@@ -4,8 +4,6 @@ date: "2025-12-26"
 description: "Learn the real differences between TypeScript and JavaScript, including static typing, the build process, runtime behavior, and when to use each."
 ---
 
-# TypeScript vs JavaScript: What’s the Difference?
-
 If you’re building modern web applications, you’ll usually have to decide between writing raw **JavaScript** or adopting **TypeScript**. Both eventually run as JavaScript in the browser, but they differ drastically in how you write code and when errors are caught.
 
 ## What each one does

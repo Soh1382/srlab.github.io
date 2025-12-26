@@ -1,6 +1,6 @@
 ---
 title: "Flexbox vs CSS Grid: Which Layout System Should You Use?"
-date: "2025-12-28"
+date: "2025-12-26"
 description: "Understand the key differences between Flexbox and CSS Grid, including one-dimensional vs two-dimensional layouts, alignment control, and when to combine them."
 ---
 
