@@ -128,7 +128,7 @@ BrowserRouter = clean URLs, but needs server rewrites to prevent 404s on refresh
 HashRouter = # in the URL, but works without server configuration on most static hosts.
 `,__vite_glob_0_1=`---
 title: "Flexbox vs CSS Grid: Which Layout System Should You Use?"
-date: "2025-12-28"
+date: "2025-12-26"
 description: "Understand the key differences between Flexbox and CSS Grid, including one-dimensional vs two-dimensional layouts, alignment control, and when to combine them."
 ---
 
@@ -235,8 +235,6 @@ title: "TypeScript vs JavaScript: What’s the Difference?"
 date: "2025-12-26"
 description: "Learn the real differences between TypeScript and JavaScript, including static typing, the build process, runtime behavior, and when to use each."
 ---
-
-# TypeScript vs JavaScript: What’s the Difference?
 
 If you’re building modern web applications, you’ll usually have to decide between writing raw **JavaScript** or adopting **TypeScript**. Both eventually run as JavaScript in the browser, but they differ drastically in how you write code and when errors are caught.
 
