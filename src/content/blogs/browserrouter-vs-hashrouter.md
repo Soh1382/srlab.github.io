@@ -4,8 +4,6 @@ date: "2025-12-22"
 description: "Learn the real differences between BrowserRouter and HashRouter, including URL formats, refresh behavior, server setup, and when to use each."
 ---
 
-# BrowserRouter vs HashRouter: What’s the Difference?
-
 If you’re using **React Router**, you’ll usually pick either **BrowserRouter** or **HashRouter**. Both handle client-side navigation, but they differ in how they build URLs and what your server needs to support.
 
 ## What each one does

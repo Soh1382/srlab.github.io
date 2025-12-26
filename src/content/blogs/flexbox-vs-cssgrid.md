@@ -4,8 +4,6 @@ date: "2025-12-26"
 description: "Understand the key differences between Flexbox and CSS Grid, including one-dimensional vs two-dimensional layouts, alignment control, and when to combine them."
 ---
 
-# Flexbox vs CSS Grid: What’s the Difference?
-
 If you are styling web pages today, you will inevitably use **Flexbox** or **CSS Grid** (or likely both). While both systems replaced the old days of using "floats" to arrange content, they solve layout problems in fundamentally different ways.
 
 ## What each one does
