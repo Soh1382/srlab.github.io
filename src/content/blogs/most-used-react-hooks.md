@@ -1,4 +1,8 @@
-# Most Used React Hooks in 2026
+---
+title: "Most Used React Hooks in 2026"
+date: "2025-12-31"
+description: "guide to the essential React hooks for 2026, covering classic fundamentals"
+---
 
 A pragmatic look at the hooks that actually survive contact with production.
 
@@ -18,27 +22,26 @@ React hooks didn’t cause that problem, but they made it easy to create. Hooks 
 
 ## Table of contents
 
-- [Most Used React Hooks in 2026](#most-used-react-hooks-in-2026)
-  - [TL;DR](#tldr)
-  - [Table of contents](#table-of-contents)
-  - [What “most used” really means](#what-most-used-really-means)
-  - [useState: local state that stays local](#usestate-local-state-that-stays-local)
-  - [useEffect: synchronisation, not computation](#useeffect-synchronisation-not-computation)
-  - [useRef: the “latest value” escape hatch](#useref-the-latest-value-escape-hatch)
-  - [useMemo and useCallback: performance tools with a cost](#usememo-and-usecallback-performance-tools-with-a-cost)
-  - [useReducer: when state has rules](#usereducer-when-state-has-rules)
-  - [useContext: dependency injection, not a global store](#usecontext-dependency-injection-not-a-global-store)
-  - [useSyncExternalStore: subscribing to external state safely](#usesyncexternalstore-subscribing-to-external-state-safely)
-  - [Custom hooks: make correctness the default](#custom-hooks-make-correctness-the-default)
-  - [Hooks and AWS-backed front ends: failure modes you can’t ignore](#hooks-and-aws-backed-front-ends-failure-modes-you-cant-ignore)
-    - [Timeouts and retries aren’t optional](#timeouts-and-retries-arent-optional)
-    - [Correlation IDs make debugging possible](#correlation-ids-make-debugging-possible)
-    - [Secure defaults: least privilege and predictable timeouts](#secure-defaults-least-privilege-and-predictable-timeouts)
-    - [Observability: don’t wait until prod](#observability-dont-wait-until-prod)
-  - [Mini case study: the dashboard that quietly attacked its own API](#mini-case-study-the-dashboard-that-quietly-attacked-its-own-api)
-  - [Devil’s advocate](#devils-advocate)
-  - [Do this next week](#do-this-next-week)
-  - [Further reading](#further-reading)
+- [TL;DR](#tldr)
+- [Table of contents](#table-of-contents)
+- [What “most used” really means](#what-most-used-really-means)
+- [useState: local state that stays local](#usestate-local-state-that-stays-local)
+- [useEffect: synchronisation, not computation](#useeffect-synchronisation-not-computation)
+- [useRef: the “latest value” escape hatch](#useref-the-latest-value-escape-hatch)
+- [useMemo and useCallback: performance tools with a cost](#usememo-and-usecallback-performance-tools-with-a-cost)
+- [useReducer: when state has rules](#usereducer-when-state-has-rules)
+- [useContext: dependency injection, not a global store](#usecontext-dependency-injection-not-a-global-store)
+- [useSyncExternalStore: subscribing to external state safely](#usesyncexternalstore-subscribing-to-external-state-safely)
+- [Custom hooks: make correctness the default](#custom-hooks-make-correctness-the-default)
+- [Hooks and AWS-backed front ends: failure modes you can’t ignore](#hooks-and-aws-backed-front-ends-failure-modes-you-cant-ignore)
+  - [Timeouts and retries aren’t optional](#timeouts-and-retries-arent-optional)
+  - [Correlation IDs make debugging possible](#correlation-ids-make-debugging-possible)
+  - [Secure defaults: least privilege and predictable timeouts](#secure-defaults-least-privilege-and-predictable-timeouts)
+  - [Observability: don’t wait until prod](#observability-dont-wait-until-prod)
+- [Mini case study: the dashboard that quietly attacked its own API](#mini-case-study-the-dashboard-that-quietly-attacked-its-own-api)
+- [Devil’s advocate](#devils-advocate)
+- [Do this next week](#do-this-next-week)
+- [Further reading](#further-reading)
 
 ## What “most used” really means
 
