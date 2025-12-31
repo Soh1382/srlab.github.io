@@ -8,16 +8,16 @@ A pragmatic look at the hooks that actually survive contact with production.
 
 The most expensive bug I shipped last year wasn’t a clever algorithm gone wrong. It was a `useEffect` that looked harmless in a PR, passed review, and quietly doubled our API traffic the moment a feature flag flipped on.
 
-Nothing blew up instantly. Which, of course, made it worse — we got a slow, weird drift: extra requests, noisy logs, and a dashboard that felt “a bit sticky” after a few minutes. You know the type of incident: no single smoking gun, just a growing sense that something is… off.
+Nothing blew up instantly. Which, of course, made it worse, we got a slow, weird drift: extra requests, noisy logs, and a dashboard that felt “a bit sticky” after a few minutes. You know the type of incident: no single smoking gun, just a growing sense that something is… off.
 
 React hooks didn’t cause that problem, but they made it easy to create. Hooks are power tools: brilliant when you know where the kickback is, unforgiving when you don’t.
 
 ## TL;DR
 
 * Most teams “use” only a handful of hooks daily; the rest show up in edge cases and libraries.
-* `useEffect` is for synchronising with the outside world — if it’s doing business logic, you’re likely about to suffer.
+* `useEffect` is for synchronising with the outside world, if it’s doing business logic, you’re likely about to suffer.
 * `useMemo`/`useCallback` are optimisation tools, not a default habit; measure first, then pay the complexity tax.
-* `useRef` is your escape hatch for mutable state and “latest value” problems — but it can hide bugs if you treat it as state.
+* `useRef` is your escape hatch for mutable state and “latest value” problems, but it can hide bugs if you treat it as state.
 * The best hook is often a custom hook that makes the boring, correct thing the easy thing.
 
 ## What “most used” really means
@@ -28,7 +28,7 @@ When people say “most used hooks”, they often mean “hooks I remember exist
 * Hooks you touch indirectly through libraries (a router, a form library, a data-fetching library).
 * Hooks you use when you’ve already tried the obvious thing and it still hurts (`useReducer`, `useSyncExternalStore`).
 
-Also: React keeps evolving. New hooks appear, old patterns get frowned upon, and entire app architectures shift. If you’re reading this in 2026 and thinking “wait, isn’t there a better official way now?”, you might be right — check the current React docs before you bake anything in as dogma.
+Also: React keeps evolving. New hooks appear, old patterns get frowned upon, and entire app architectures shift. If you’re reading this in 2026 and thinking “wait, isn’t there a better official way now?”, you might be right, check the current React docs before you bake anything in as dogma.
 
 ## useState: local state that stays local
 
@@ -286,7 +286,7 @@ The payoff isn’t magic performance. It’s clarity: fewer “how did we get he
 
 ## useContext: dependency injection, not a global store
 
-`useContext` is great — until it becomes “our state management solution”.
+`useContext` is great, until it becomes “our state management solution”.
 
 Use it for:
 
@@ -370,7 +370,7 @@ If you don’t already have an external store, don’t create one just to feel m
 
 ## Custom hooks: make correctness the default
 
-The most “used hook” in any mature codebase is often a custom one — because teams wrap sharp edges.
+The most “used hook” in any mature codebase is often a custom one, because teams wrap sharp edges.
 
 Common candidates:
 
@@ -525,7 +525,7 @@ A boring but effective pattern is to log one line per user action (client-side) 
 
 ## Mini case study: the dashboard that quietly attacked its own API
 
-We had an internal dashboard that displayed queue health, recent jobs, and a couple of charts. It wasn’t glamorous, but it was always open on someone’s second monitor — the exact kind of thing that turns a small inefficiency into an all-day drain.
+We had an internal dashboard that displayed queue health, recent jobs, and a couple of charts. It wasn’t glamorous, but it was always open on someone’s second monitor, the exact kind of thing that turns a small inefficiency into an all-day drain.
 
 We got it wrong at first.
 
@@ -589,4 +589,4 @@ Hooks are not a universal solvent. A few cases where the usual hook-heavy approa
 * Your organisation’s standards for logging, correlation IDs, and client-side error reporting
 * Postmortems/write-ups about runaway effects, polling, and accidental request storms
 
-The boring truth is that most hook problems aren’t “we chose the wrong hook”. They’re “we didn’t decide what the data flow should be, so the code decided for us”. Decide it on purpose, wrap it in a couple of sharp custom hooks, and you’ll ship fewer surprises — and spend less time staring at a spinner that’s quietly doing something you didn’t mean.
+The boring truth is that most hook problems aren’t “we chose the wrong hook”. They’re “we didn’t decide what the data flow should be, so the code decided for us”. Decide it on purpose, wrap it in a couple of sharp custom hooks, and you’ll ship fewer surprises, and spend less time staring at a spinner that’s quietly doing something you didn’t mean.
