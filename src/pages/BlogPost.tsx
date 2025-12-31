@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ParticleBackground from '../components/ParticleBackground';
@@ -51,7 +52,7 @@ const BlogPost = () => {
                     </header>
 
                     <div className="text-gray-300 text-lg leading-relaxed prose prose-invert max-w-none">
-                        <ReactMarkdown>{blog.content}</ReactMarkdown>
+                        <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{blog.content}</ReactMarkdown>
                     </div>
                 </article>
             </main>
