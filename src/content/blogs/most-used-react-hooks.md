@@ -20,29 +20,6 @@ React hooks didn’t cause that problem, but they made it easy to create. Hooks 
 * `useRef` is your escape hatch for mutable state and “latest value” problems — but it can hide bugs if you treat it as state.
 * The best hook is often a custom hook that makes the boring, correct thing the easy thing.
 
-## Table of contents
-
-- [TL;DR](#tldr)
-- [Table of contents](#table-of-contents)
-- [What “most used” really means](#what-most-used-really-means)
-- [useState: local state that stays local](#usestate-local-state-that-stays-local)
-- [useEffect: synchronisation, not computation](#useeffect-synchronisation-not-computation)
-- [useRef: the “latest value” escape hatch](#useref-the-latest-value-escape-hatch)
-- [useMemo and useCallback: performance tools with a cost](#usememo-and-usecallback-performance-tools-with-a-cost)
-- [useReducer: when state has rules](#usereducer-when-state-has-rules)
-- [useContext: dependency injection, not a global store](#usecontext-dependency-injection-not-a-global-store)
-- [useSyncExternalStore: subscribing to external state safely](#usesyncexternalstore-subscribing-to-external-state-safely)
-- [Custom hooks: make correctness the default](#custom-hooks-make-correctness-the-default)
-- [Hooks and AWS-backed front ends: failure modes you can’t ignore](#hooks-and-aws-backed-front-ends-failure-modes-you-cant-ignore)
-  - [Timeouts and retries aren’t optional](#timeouts-and-retries-arent-optional)
-  - [Correlation IDs make debugging possible](#correlation-ids-make-debugging-possible)
-  - [Secure defaults: least privilege and predictable timeouts](#secure-defaults-least-privilege-and-predictable-timeouts)
-  - [Observability: don’t wait until prod](#observability-dont-wait-until-prod)
-- [Mini case study: the dashboard that quietly attacked its own API](#mini-case-study-the-dashboard-that-quietly-attacked-its-own-api)
-- [Devil’s advocate](#devils-advocate)
-- [Do this next week](#do-this-next-week)
-- [Further reading](#further-reading)
-
 ## What “most used” really means
 
 When people say “most used hooks”, they often mean “hooks I remember existing”. In practice, “most used” is about frequency in real codebases:
