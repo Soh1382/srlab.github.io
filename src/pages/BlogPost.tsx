@@ -1,25 +1,14 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ParticleBackground from '../components/ParticleBackground';
-import type { Blog } from '../types';
 import { getBlogBySlug } from '../utils/blogLoader';
 
 const BlogPost = () => {
     const { id } = useParams();
-    const [blog, setBlog] = useState<Blog | null>(() => {
-        return id ? (getBlogBySlug(id) || null) : null;
-    });
-
-    useEffect(() => {
-        if (id) {
-             const foundBlog = getBlogBySlug(id);
-             setBlog(foundBlog || null);
-        }
-    }, [id]);
+    const blog = id ? (getBlogBySlug(id) || null) : null;
 
     if (!blog) {
         return (

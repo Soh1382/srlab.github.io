@@ -1,9 +1,47 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRipple } from '../hooks/useRipple';
+
+// Define Props Interface
+interface LinkedInBadgeProps {
+  vanityName: string;
+  theme?: 'light' | 'dark';
+  size?: 'medium' | 'large';
+}
+
+const LinkedInBadge: React.FC<LinkedInBadgeProps> = ({ 
+  vanityName, 
+  theme = 'dark', 
+  size = 'large' 
+}) => {
+  useEffect(() => {
+    // Load script via useEffect
+    const script = document.createElement('script');
+    script.src = "https://platform.linkedin.com/badges/js/profile.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  // Render container with required data attributes
+  return (
+    <div 
+      className="LI-profile-badge" 
+      data-size={size} 
+      data-theme={theme} 
+      data-type="VERTICAL" 
+      data-vanity={vanityName} 
+    />
+  );
+};
+
 
 const Contact = () => {
     useRipple();
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+
 
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
@@ -130,11 +168,9 @@ const Contact = () => {
                                 <p className="text-gray-400">@Soh1382</p>
                             </div>
                         </a>
-                        {/* LinkedIn Badge */}
-                        <div className="glass p-6 rounded-2xl flex justify-center items-center overflow-x-auto w-full">
-                            <div className="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="dark" data-type="HORIZONTAL" data-vanity="soheil-rousta-91aa111b7" data-version="v1">
-                                <a className="badge-base__link LI-simple-link" href="https://uk.linkedin.com/in/soheil-rousta-91aa111b7?trk=profile-badge">Soheil Rousta</a>
-                            </div>
+                        
+                        <div className="w-full flex justify-center mt-2">
+                            <LinkedInBadge vanityName="soheil-rousta-91aa111b7" size="large" theme="dark" />
                         </div>
                     </div>
                 </div>
