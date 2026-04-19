@@ -130,6 +130,12 @@ const Contact = () => {
                                 <p className="text-gray-400">@Soh1382</p>
                             </div>
                         </a>
+                        {/* LinkedIn Badge */}
+                        <div className="glass p-6 rounded-2xl flex justify-center items-center overflow-x-auto w-full">
+                            <div className="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="dark" data-type="HORIZONTAL" data-vanity="soheil-rousta-91aa111b7" data-version="v1">
+                                <a className="badge-base__link LI-simple-link" href="https://uk.linkedin.com/in/soheil-rousta-91aa111b7?trk=profile-badge">Soheil Rousta</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
