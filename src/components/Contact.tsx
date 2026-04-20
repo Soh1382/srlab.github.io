@@ -6,6 +6,7 @@ const Contact = () => {
     useRipple();
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
     const badgeContainerRef = useRef<HTMLDivElement | null>(null);
+    const badgeRenderTriggeredRef = useRef(false);
 
 
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -24,15 +25,28 @@ const Contact = () => {
         };
 
         const renderBadges = () => {
-            const badges = document.querySelectorAll('.LI-profile-badge');
-            badges.forEach((badge) => {
-                badge.removeAttribute('data-rendered');
-                badge.removeAttribute('data-uid');
-            });
-
+            if (badgeRenderTriggeredRef.current) {
+                return true;
+            }
             const linkedInWindow = window as Window & { LIRenderAll?: () => void };
-            linkedInWindow.LIRenderAll?.();
+            if (!linkedInWindow.LIRenderAll) {
+                return false;
+            }
+
+            const badge = badgeContainerRef.current?.querySelector('.LI-profile-badge');
+            if (!badge) {
+                return false;
+            }
+
+            // Prevent duplicate stacked badges by clearing prior rendered iframe.
+            badge.querySelectorAll('iframe').forEach((frame) => frame.remove());
+            badge.removeAttribute('data-rendered');
+            badge.removeAttribute('data-uid');
+
+            linkedInWindow.LIRenderAll();
+            badgeRenderTriggeredRef.current = true;
             window.setTimeout(checkBadgeRendered, 250);
+            return true;
         };
 
         const ensureScriptAndRender = () => {
@@ -54,8 +68,8 @@ const Contact = () => {
             document.body.appendChild(script);
         };
 
-        // In SPA rendering, badge script and component mount timing can vary.
-        // Retry a few times to guarantee LinkedIn iframe injection.
+        // In SPA rendering, badge script timing can vary.
+        // Retry briefly until the script is ready, but render only once.
         const observer = new MutationObserver(() => {
             checkBadgeRendered();
         });
@@ -64,9 +78,14 @@ const Contact = () => {
         }
 
         ensureScriptAndRender();
-        const retry1 = window.setTimeout(renderBadges, 800);
-        const retry2 = window.setTimeout(renderBadges, 1800);
-        const retry3 = window.setTimeout(renderBadges, 3200);
+        let retries = 0;
+        const retryInterval = window.setInterval(() => {
+            retries += 1;
+            renderBadges();
+            if (badgeRenderTriggeredRef.current || retries >= 6) {
+                window.clearInterval(retryInterval);
+            }
+        }, 700);
         const fallbackTimer = window.setTimeout(() => {
             if (!checkBadgeRendered()) {
                 setShowBadgeFallback(true);
@@ -75,9 +94,7 @@ const Contact = () => {
 
         return () => {
             observer.disconnect();
-            window.clearTimeout(retry1);
-            window.clearTimeout(retry2);
-            window.clearTimeout(retry3);
+            window.clearInterval(retryInterval);
             window.clearTimeout(fallbackTimer);
         };
     }, []);
