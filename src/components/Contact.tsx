@@ -1,49 +1,86 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRipple } from '../hooks/useRipple';
-
-// Define Props Interface
-interface LinkedInBadgeProps {
-  vanityName: string;
-  theme?: 'light' | 'dark';
-  size?: 'medium' | 'large';
-}
-
-const LinkedInBadge: React.FC<LinkedInBadgeProps> = ({ 
-  vanityName, 
-  theme = 'dark', 
-  size = 'large' 
-}) => {
-  useEffect(() => {
-    // Load script via useEffect
-    const script = document.createElement('script');
-    script.src = "https://platform.linkedin.com/badges/js/profile.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  // Render container with required data attributes
-  return (
-    <div 
-      className="LI-profile-badge" 
-      data-size={size} 
-      data-theme={theme} 
-      data-type="VERTICAL" 
-      data-vanity={vanityName} 
-    />
-  );
-};
 
 
 const Contact = () => {
     useRipple();
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+    const badgeContainerRef = useRef<HTMLDivElement | null>(null);
 
 
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [isBadgeRendered, setIsBadgeRendered] = useState(false);
+    const [showBadgeFallback, setShowBadgeFallback] = useState(true);
+
+    useEffect(() => {
+        const checkBadgeRendered = () => {
+            const hasBadgeFrame = Boolean(badgeContainerRef.current?.querySelector('iframe'));
+            if (hasBadgeFrame) {
+                setIsBadgeRendered(true);
+                setShowBadgeFallback(false);
+                return true;
+            }
+            return false;
+        };
+
+        const renderBadges = () => {
+            const badges = document.querySelectorAll('.LI-profile-badge');
+            badges.forEach((badge) => {
+                badge.removeAttribute('data-rendered');
+                badge.removeAttribute('data-uid');
+            });
+
+            const linkedInWindow = window as Window & { LIRenderAll?: () => void };
+            linkedInWindow.LIRenderAll?.();
+            window.setTimeout(checkBadgeRendered, 250);
+        };
+
+        const ensureScriptAndRender = () => {
+            const existingScript = document.querySelector(
+                'script[src="https://platform.linkedin.com/badges/js/profile.js"]'
+            ) as HTMLScriptElement | null;
+
+            if (existingScript) {
+                renderBadges();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://platform.linkedin.com/badges/js/profile.js';
+            script.async = true;
+            script.defer = true;
+            script.type = 'text/javascript';
+            script.onload = renderBadges;
+            document.body.appendChild(script);
+        };
+
+        // In SPA rendering, badge script and component mount timing can vary.
+        // Retry a few times to guarantee LinkedIn iframe injection.
+        const observer = new MutationObserver(() => {
+            checkBadgeRendered();
+        });
+        if (badgeContainerRef.current) {
+            observer.observe(badgeContainerRef.current, { childList: true, subtree: true });
+        }
+
+        ensureScriptAndRender();
+        const retry1 = window.setTimeout(renderBadges, 800);
+        const retry2 = window.setTimeout(renderBadges, 1800);
+        const retry3 = window.setTimeout(renderBadges, 3200);
+        const fallbackTimer = window.setTimeout(() => {
+            if (!checkBadgeRendered()) {
+                setShowBadgeFallback(true);
+            }
+        }, 4500);
+
+        return () => {
+            observer.disconnect();
+            window.clearTimeout(retry1);
+            window.clearTimeout(retry2);
+            window.clearTimeout(retry3);
+            window.clearTimeout(fallbackTimer);
+        };
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -169,8 +206,45 @@ const Contact = () => {
                             </div>
                         </a>
                         
-                        <div className="w-full flex justify-center mt-2">
-                            <LinkedInBadge vanityName="soheil-rousta-91aa111b7" size="large" theme="dark" />
+                        <div ref={badgeContainerRef} className="w-full mt-2 overflow-x-auto pb-2 linkedin-badge-container">
+                            <div className={`linkedin-badge-scale ${isBadgeRendered ? '' : 'opacity-0 h-0 overflow-hidden'}`}>
+                                <div
+                                    className="badge-base LI-profile-badge"
+                                    data-locale="en_US"
+                                    data-size="large"
+                                    data-theme="dark"
+                                    data-type="HORIZONTAL"
+                                    data-vanity="soheil-rousta-91aa111b7"
+                                    data-version="v1"
+                                >
+                                    <a
+                                        className="badge-base__link LI-simple-link sr-only"
+                                        href="https://uk.linkedin.com/in/soheil-rousta-91aa111b7?trk=profile-badge"
+                                        aria-label="Soheil Rousta LinkedIn profile"
+                                    >
+                                        Soheil Rousta
+                                    </a>
+                                </div>
+                            </div>
+
+                            {showBadgeFallback && (
+                                <a
+                                    href="https://uk.linkedin.com/in/soheil-rousta-91aa111b7?trk=profile-badge"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="glass block w-full rounded-2xl p-6 hover:border-primary transition"
+                                    aria-label="Open Soheil Rousta LinkedIn profile"
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="font-bold text-lg text-white">LinkedIn</h3>
+                                        <span className="text-primary font-semibold text-sm">View profile</span>
+                                    </div>
+                                    <p className="text-gray-300 font-semibold">Soheil Rousta</p>
+                                    <p className="text-gray-400 text-sm mt-1">
+                                        Software Engineer | Building clean, scalable products
+                                    </p>
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -58,4 +58,27 @@
     z-index: -1;
     background: #0f172a;
   }
+
+  /* LinkedIn badge mobile scaling */
+  .linkedin-badge-container {
+    scrollbar-width: none;
+  }
+  .linkedin-badge-container::-webkit-scrollbar {
+    display: none;
+  }
+  .linkedin-badge-container .linkedin-badge-scale,
+  .linkedin-badge-container .LI-profile-badge {
+    width: 100%;
+  }
+  .linkedin-badge-container iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .linkedin-badge-scale {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
 }
